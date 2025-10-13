@@ -1,4 +1,4 @@
-package sailor.BJTester.fachobjekte;
+package sailor.BJTester.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

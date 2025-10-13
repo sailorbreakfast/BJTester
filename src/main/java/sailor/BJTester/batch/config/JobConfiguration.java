@@ -9,8 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
-import sailor.BJTester.batch.jobObjekte.*;
-import sailor.BJTester.fachobjekte.Doctor;
+import sailor.BJTester.batch.jobObjects.processor.DoctorItemProcessor;
+import sailor.BJTester.batch.jobObjects.reader.DoctorItemReaderConf;
+import sailor.BJTester.batch.jobObjects.writer.AvailableDoctorsWriterConf;
+import sailor.BJTester.batch.jobObjects.listener.DoctorItemWriteListener;
+import sailor.BJTester.batch.jobObjects.writer.DoctorItemWriter;
+import sailor.BJTester.model.Doctor;
 
 
 @Configuration

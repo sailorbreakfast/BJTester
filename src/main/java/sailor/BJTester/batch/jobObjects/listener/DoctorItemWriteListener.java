@@ -1,4 +1,4 @@
-package sailor.BJTester.batch.jobObjekte;
+package sailor.BJTester.batch.jobObjects.listener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

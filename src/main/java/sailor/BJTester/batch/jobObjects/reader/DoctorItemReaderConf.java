@@ -1,4 +1,4 @@
-package sailor.BJTester.batch.jobObjekte;
+package sailor.BJTester.batch.jobObjects.reader;
 
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.LineMapper;
@@ -10,7 +10,7 @@ import org.springframework.batch.item.file.transform.LineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import sailor.BJTester.fachobjekte.Doctor;
+import sailor.BJTester.model.Doctor;
 
 
 @Configuration

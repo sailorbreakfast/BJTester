@@ -1,11 +1,11 @@
-package sailor.BJTester.batch.jobObjekte;
+package sailor.BJTester.batch.jobObjects.writer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
-import sailor.BJTester.fachobjekte.Doctor;
+import sailor.BJTester.model.Doctor;
 
 @Component
 public class DoctorItemWriter  implements ItemWriter<Doctor> {

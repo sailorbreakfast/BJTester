@@ -1,13 +1,13 @@
-package sailor.BJTester.batch.jobObjekte;
+package sailor.BJTester.batch.jobObjects.processor;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
-import sailor.BJTester.fachobjekte.Doctor;
+import sailor.BJTester.model.Doctor;
 
 @Component
 public class DoctorItemProcessor implements ItemProcessor<Doctor, Doctor> {
     @Override
-    public Doctor process(Doctor item) throws Exception {
+    public Doctor process(Doctor item) {
         if (!item.getHasCapacityForPatient()) {
             return null;
         }

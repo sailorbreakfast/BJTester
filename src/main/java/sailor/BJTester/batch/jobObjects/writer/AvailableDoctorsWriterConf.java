@@ -1,4 +1,4 @@
-package sailor.BJTester.batch.jobObjekte;
+package sailor.BJTester.batch.jobObjects.writer;
 
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
@@ -6,7 +6,7 @@ import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
-import sailor.BJTester.fachobjekte.Doctor;
+import sailor.BJTester.model.Doctor;
 
 @Configuration
 public class AvailableDoctorsWriterConf {
