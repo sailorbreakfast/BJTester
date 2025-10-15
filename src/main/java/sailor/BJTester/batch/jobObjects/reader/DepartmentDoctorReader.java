@@ -14,7 +14,7 @@ import sailor.BJTester.model.Doctor;
 
 
 @Configuration
-public class DoctorItemReaderConf {
+public class DepartmentDoctorReader {
 
 @Bean
     public FlatFileItemReader<Doctor> doctorItemReader(){

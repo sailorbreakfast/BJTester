@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
-import sailor.BJTester.batch.jobObjects.processor.DoctorItemProcessor;
-import sailor.BJTester.batch.jobObjects.reader.DoctorItemReaderConf;
+import sailor.BJTester.batch.jobObjects.processor.FilterAvailableDoctorsProcessor;
+import sailor.BJTester.batch.jobObjects.reader.DepartmentDoctorReader;
 import sailor.BJTester.batch.jobObjects.writer.AvailableDoctorsWriterConf;
 import sailor.BJTester.batch.jobObjects.listener.DoctorItemWriteListener;
 import sailor.BJTester.batch.jobObjects.writer.DoctorItemWriter;
@@ -31,14 +31,14 @@ public class JobConfiguration {
 
 
     @Bean
-    public Step doctorAvailabilityStep(JobRepository jobRepository, DoctorItemReaderConf doctorItemReaderConf, AvailableDoctorsWriterConf availableDoctorsWriterConf,
-                                       DoctorItemWriter doctorItemWriter, DoctorItemProcessor doctorItemProcessor,
+    public Step doctorAvailabilityStep(JobRepository jobRepository, DepartmentDoctorReader departmentDoctorReader, AvailableDoctorsWriterConf availableDoctorsWriterConf,
+                                       DoctorItemWriter doctorItemWriter, FilterAvailableDoctorsProcessor filterAvailableDoctorsProcessor,
                                        DoctorItemWriteListener doctorItemWriteListener, TransactionManager transactionManager) {
         return new StepBuilder("doctorAvailabilityStep", jobRepository)
                 .<Doctor, Doctor>chunk(4, (PlatformTransactionManager) transactionManager)
                 .allowStartIfComplete(true)
-                .reader(doctorItemReaderConf.doctorItemReader())
-                .processor(doctorItemProcessor)
+                .reader(departmentDoctorReader.doctorItemReader())
+                .processor(filterAvailableDoctorsProcessor)
                 .writer(availableDoctorsWriterConf.availableDoctorsWriter())
                 .listener(doctorItemWriteListener)
                 .build();
