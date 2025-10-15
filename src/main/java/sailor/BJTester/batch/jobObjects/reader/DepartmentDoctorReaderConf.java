@@ -14,14 +14,14 @@ import sailor.BJTester.model.Doctor;
 
 
 @Configuration
-public class DepartmentDoctorReader {
+public class DepartmentDoctorReaderConf {
 
 @Bean
-    public FlatFileItemReader<Doctor> doctorItemReader(){
+    public FlatFileItemReader<Doctor> departmentDoctorItemReader(){
         return new FlatFileItemReaderBuilder<Doctor>()
                 .name("doctorItemReader")
                 .delimited()
-                .names("firstName", "lastName", "age", "hasCapacityForPatient", "Expertise", "monthsWorkedHours", "onPremise")
+                .names("firstName", "lastName", "age", "hasCapacityForPatient", "Expertise", "monthsWorkedHours", "onPremise", "matchTreatmentScore")
                 .targetType(Doctor.class)
                 .lineMapper(doctorLineMapper())
                 .resource(new ClassPathResource("doctorData.csv"))
@@ -38,7 +38,7 @@ public class DepartmentDoctorReader {
     public LineTokenizer doctorLineTokenizer(){
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
         tokenizer.setDelimiter(",");
-        tokenizer.setNames(new String[]{"firstName", "lastName", "age", "hasCapacityForPatient", "Expertise", "monthsWorkedHours", "onPremise"});
+        tokenizer.setNames(new String[]{"firstName", "lastName", "age", "hasCapacityForPatient", "Expertise", "monthsWorkedHours", "onPremise", "matchTreatmentScore"});
         return tokenizer;
     }
 }

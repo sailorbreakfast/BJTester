@@ -3,6 +3,7 @@ package sailor.BJTester.batch.jobObjects.processor;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 import sailor.BJTester.model.Doctor;
+import sailor.BJTester.model.*;
 
 @Component
 public class FilterAvailableDoctorsProcessor implements ItemProcessor<Doctor, Doctor> {
