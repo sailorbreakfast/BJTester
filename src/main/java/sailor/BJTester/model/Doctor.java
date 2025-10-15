@@ -16,4 +16,5 @@ public class Doctor {
     String expertise;
     Integer monthsWorkedHours;
     Boolean onPremise;
+    Integer matchTreatmentScore;
         }

@@ -10,16 +10,13 @@ import org.springframework.core.io.FileSystemResource;
 import sailor.BJTester.model.Doctor;
 
 @Configuration
-public class AvailableDoctorsWriterConf {
-
+public class MatchDoctorWriterConf {
     @Bean
     @StepScope
-    public FlatFileItemWriter<Doctor> availableDoctorsWriter(){
+    public FlatFileItemWriter<Doctor> scoredDoctorsWriter(){
         FlatFileItemWriter<Doctor> fileItemWriter = new FlatFileItemWriter<>();
-        fileItemWriter.setResource(new FileSystemResource("C:\\Users\\ratze\\Desktop\\BJTester\\BJTester\\springOutputData\\availableDoctors.csv"));
+        fileItemWriter.setResource(new FileSystemResource("springOutputData/scoredDoctors.csv"));
         fileItemWriter.setAppendAllowed(true);
-        fileItemWriter.setShouldDeleteIfEmpty(true);
-        fileItemWriter.setShouldDeleteIfExists(true);
         fileItemWriter.setLineAggregator(doctorLineAggregator());
         return fileItemWriter;
     }
