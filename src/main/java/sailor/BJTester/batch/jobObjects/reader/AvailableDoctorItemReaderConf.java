@@ -9,7 +9,6 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.LineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import sailor.BJTester.model.Doctor;
 
@@ -24,7 +23,7 @@ public class AvailableDoctorItemReaderConf {
                     .names("firstName", "lastName", "age", "hasCapacityForPatient", "Expertise", "monthsWorkedHours", "onPremise", "matchTreatmentScore")
                     .targetType(Doctor.class)
                     .lineMapper(doctorLineMapper())
-                    .resource(new FileSystemResource("C:\\Users\\ratze\\Desktop\\BJTester\\BJTester\\springOutputData\\availableDoctors.csv"))
+                    .resource(new FileSystemResource("springOutputData\\availableDoctors.csv"))
                     .build();
         }
 
@@ -38,7 +37,7 @@ public class AvailableDoctorItemReaderConf {
         public LineTokenizer doctorLineTokenizer(){
             DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
             tokenizer.setDelimiter(",");
-            tokenizer.setNames(new String[]{"firstName", "lastName", "age", "hasCapacityForPatient", "Expertise", "monthsWorkedHours", "onPremise", "matchTreatmentScore"});
+            tokenizer.setNames("firstName", "lastName", "age", "hasCapacityForPatient", "Expertise", "monthsWorkedHours", "onPremise", "matchTreatmentScore");
             return tokenizer;
         }
     }
