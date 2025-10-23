@@ -16,6 +16,7 @@ import sailor.BJTester.batch.jobObjects.processor.SelectedDoctorProcessor;
 import sailor.BJTester.batch.jobObjects.reader.AvailableDoctorItemReaderConf;
 import sailor.BJTester.batch.jobObjects.reader.DepartmentDoctorReaderConf;
 import sailor.BJTester.batch.jobObjects.reader.MatchingDoctorsReaderConf;
+import sailor.BJTester.batch.jobObjects.tasklets.PageDoctorTasklet;
 import sailor.BJTester.batch.jobObjects.writer.AvailableDoctorsWriterConf;
 import sailor.BJTester.batch.jobObjects.writer.MatchDoctorWriterConf;
 import sailor.BJTester.batch.jobObjects.writer.SelectDoctorWriter;
@@ -29,12 +30,14 @@ public class JobConfiguration {
     public Job princetonPlainsboroDoctorPagerJob(JobRepository jobRepository,
                                                  Step doctorAvailabilityStep,
                                                  Step matchDoctorStep,
-                                                 Step selectDoctorStep){
+                                                 Step selectDoctorStep,
+                                                 Step pageDoctorStep){
 
-        return new JobBuilder("princetonPlainsboroAvailabilityJob", jobRepository)
+        return new JobBuilder("princetonPlainsboroDoctorPagerJob", jobRepository)
                 .start(doctorAvailabilityStep)
                 .next(matchDoctorStep)
                 .next(selectDoctorStep)
+                .next(pageDoctorStep)
                 .build();
     }
 
@@ -88,6 +91,17 @@ public class JobConfiguration {
                 .writer(selectDoctorWriter)
                 .listener(selectedDoctorProcessor)
                 .listener(selectDoctorStepListener)
+                .build();
+ }
+
+ @Bean
+ public Step pageDoctorStep(JobRepository jobRepository,
+                            PageDoctorTasklet pageDoctorTasklet,
+                            PlatformTransactionManager transactionManager) {
+
+        return new StepBuilder("pageDoctorStep", jobRepository)
+                .tasklet(pageDoctorTasklet, transactionManager)
+                .allowStartIfComplete(true)
                 .build();
  }
 //

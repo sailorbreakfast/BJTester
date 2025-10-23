@@ -1,7 +1,7 @@
 Lisa      ,Cuddy     ,48  ,false  ,Endocrinologist     ,99   ,true  ,0
 James     ,Willson   ,49  ,true   ,Oncologist          ,89   ,true  ,0
 Gregory   ,House     ,48  ,true   ,Nephrologist        ,100  ,true  ,0
-Foreman   ,Eric      ,33  ,true   ,Neurologist         ,85   ,true  ,0
+Eric      ,Foreman   ,33  ,true   ,Neurologist         ,94   ,false ,0
 Cameron   ,Allison   ,30  ,true   ,Immunologist        ,90   ,true  ,0
 Chase     ,Robert    ,29  ,false  ,Cardiologist        ,86   ,false ,0
 Kutner    ,Lawrence  ,28  ,true   ,Rehabilitationist   ,40   ,false ,0
