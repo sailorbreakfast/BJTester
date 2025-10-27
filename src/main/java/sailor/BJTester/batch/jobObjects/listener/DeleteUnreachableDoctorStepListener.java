@@ -24,8 +24,6 @@ public class DeleteUnreachableDoctorStepListener implements StepExecutionListene
 
         try {
             Files.deleteIfExists(oldFilePath);
-            Files.move(newFilePath, oldFilePath, StandardCopyOption.REPLACE_EXISTING);
-
             return ExitStatus.COMPLETED;
 
         }catch (Exception e){
