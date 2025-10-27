@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
+import sailor.BJTester.batch.jobObjects.listener.DeleteUnreachableDoctorStepListener;
 import sailor.BJTester.batch.jobObjects.listener.SelectDoctorStepListener;
+import sailor.BJTester.batch.jobObjects.processor.DeleteUnreachableDoctorProcessor;
 import sailor.BJTester.batch.jobObjects.processor.FilterAvailableDoctorsProcessor;
 import sailor.BJTester.batch.jobObjects.processor.MatchDoctorProcessor;
 import sailor.BJTester.batch.jobObjects.processor.SelectedDoctorProcessor;
@@ -17,9 +19,11 @@ import sailor.BJTester.batch.jobObjects.reader.AvailableDoctorItemReaderConf;
 import sailor.BJTester.batch.jobObjects.reader.DepartmentDoctorReaderConf;
 import sailor.BJTester.batch.jobObjects.reader.MatchingDoctorsReaderConf;
 import sailor.BJTester.batch.jobObjects.tasklets.PageDoctorTasklet;
+import sailor.BJTester.batch.jobObjects.tasklets.RenameMatchDoctorCSVTasklet;
 import sailor.BJTester.batch.jobObjects.writer.AvailableDoctorsWriterConf;
 import sailor.BJTester.batch.jobObjects.writer.MatchDoctorWriterConf;
 import sailor.BJTester.batch.jobObjects.writer.SelectDoctorWriter;
+import sailor.BJTester.batch.jobObjects.writer.ShortendMatchDoctorWriterConf;
 import sailor.BJTester.model.Doctor;
 
 
@@ -31,13 +35,17 @@ public class JobConfiguration {
                                                  Step doctorAvailabilityStep,
                                                  Step matchDoctorStep,
                                                  Step selectDoctorStep,
-                                                 Step pageDoctorStep){
+                                                 Step pageDoctorStep,
+                                                 Step deleteUnreachableDoctorStep,
+                                                 Step renameMatchDoctorCSVStep){
 
         return new JobBuilder("princetonPlainsboroDoctorPagerJob", jobRepository)
                 .start(doctorAvailabilityStep)
                 .next(matchDoctorStep)
                 .next(selectDoctorStep)
                 .next(pageDoctorStep)
+//                .next(deleteUnreachableDoctorStep)
+//                .next(renameMatchDoctorCSVStep)
                 .build();
     }
 
@@ -101,6 +109,36 @@ public class JobConfiguration {
 
         return new StepBuilder("pageDoctorStep", jobRepository)
                 .tasklet(pageDoctorTasklet, transactionManager)
+                .allowStartIfComplete(true)
+                .build();
+ }
+
+ @Bean
+    public Step deleteUnreachableDoctorStep(JobRepository jobRepository,
+                                            MatchingDoctorsReaderConf matchingDoctorsReaderConf,
+                                            DeleteUnreachableDoctorProcessor deleteUnreachableDoctorProcessor,
+                                            ShortendMatchDoctorWriterConf shortendMatchDoctorWriterConf,
+                                            DeleteUnreachableDoctorStepListener deleteUnreachableDoctorStepListener,
+                                            TransactionManager transactionManager) {
+
+        return new StepBuilder("deleteUnreachableDoctorStep", jobRepository)
+                .<Doctor, Doctor>chunk(10, (PlatformTransactionManager) transactionManager)
+                .allowStartIfComplete(true)
+                .reader(matchingDoctorsReaderConf.matchingDoctorItemReader())
+                .processor(deleteUnreachableDoctorProcessor)
+                .writer(shortendMatchDoctorWriterConf.shortendMatchDoctorsWriter())
+                .listener(deleteUnreachableDoctorProcessor)
+                .listener(deleteUnreachableDoctorStepListener)
+                .build();
+ }
+
+ @Bean
+    public Step renameMatchDoctorCSVStep (JobRepository jobRepository,
+                                          RenameMatchDoctorCSVTasklet renameMatchDoctorCSVTasklet,
+                                          PlatformTransactionManager transactionManager) {
+
+        return new StepBuilder("renameMatchDoctorCSVStep", jobRepository)
+                .tasklet(renameMatchDoctorCSVTasklet, transactionManager)
                 .allowStartIfComplete(true)
                 .build();
  }
